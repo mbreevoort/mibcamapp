@@ -1,10 +1,10 @@
 package nl.mib.cam;
 
+import nl.mib.cam.model.DirectoriesModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
@@ -25,9 +25,8 @@ public class CamImagesController {
     Environment env;
     private String camImagesRootDir;
 
-    //@RequestMapping("/cam1/listdirs")
-    @RequestMapping(value = "/cam1/listdirs", method = RequestMethod.GET, produces = "application/json")
-    public List<String> listDirs() {
+    @RequestMapping("/cam/api/v1/listdirs")
+    public DirectoriesModel listDirs() {
         List<String> dirs = new ArrayList<>();
         Path path = Paths.get(URI.create(getCamImagesRootDir()));
         try (DirectoryStream<Path> paths = Files.newDirectoryStream(path)) {
@@ -36,10 +35,10 @@ public class CamImagesController {
             throw new RuntimeException(e);
         }
 
-        return dirs;
+        return new DirectoriesModel(dirs);
     }
 
-    @RequestMapping(value = "/cam1/list/{dir}", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/cam/api/v1/list/{dir}")
     public Map<String, List<String>> listdir(@PathVariable("dir") String startdir) throws IOException {
         Path rootDir = Paths.get(URI.create(getCamImagesRootDir() + startdir));
         List<Path> dirs = Collections.singletonList(rootDir);
@@ -50,7 +49,7 @@ public class CamImagesController {
         return dirToPath;
     }
 
-    @RequestMapping(value = "/cam1/listall", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/cam/api/v1/listall")
     public Map<String, List<String>> listall() throws IOException {
         Path rootDir = Paths.get(URI.create(getCamImagesRootDir()));
         List<Path> dirs = listFiles(rootDir);

@@ -28,15 +28,11 @@ angular.module('CamImgApp', ['ngRoute'])
     });
 
 function CamdirsController($scope, $http) {
-    //$http.get('/cam1/listdirs').
-    //success(function(data) {
-    //    $scope.camdirs = data;
-    //});
 
-    $http({method: 'GET', url: '/cam1/listdirs'}).
+    $http({method: 'GET', url: '/cam/api/v1/listdirs'}).
     then(function (response) {
         $scope.status = response.status;
-        $scope.camdirs = response.data;
+        $scope.camdirs = response.data.dirs;
     }, function (response) {
         $scope.camdirs = response.data || "Request failed";
         $scope.status = response.status;
@@ -44,7 +40,6 @@ function CamdirsController($scope, $http) {
 }
 
 function CamviewController($scope, $http, $routeParams, $interval, $filter) {
-    //$scope.name = "CamviewController";
     $scope.params = $routeParams;
     var sliderInterval;
 
@@ -53,7 +48,7 @@ function CamviewController($scope, $http, $routeParams, $interval, $filter) {
         return $filter('orderBy')(imageFiles, '+');
     }
 
-    $http({method: 'GET', url: '/cam1/list/' + $scope.params.dir}).
+    $http({method: 'GET', url: '/cam/api/v1/list/' + $scope.params.dir}).
     then(function (response) {
         $scope.status = response.status;
         $scope.camfiles = response.data[$scope.params.dir];
