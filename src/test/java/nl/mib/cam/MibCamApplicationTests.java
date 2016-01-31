@@ -9,7 +9,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = MibCamApplication.class)
-@WebAppConfiguration
+//@WebAppConfiguration
 @WebIntegrationTest({"server.port=0", "management.port=0"})
 public class MibCamApplicationTests {
 

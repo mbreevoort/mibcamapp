@@ -30,7 +30,7 @@ public class CamImagesControllerTest {
 
     @Test
     public void listdirs() throws Exception {
-        this.mockMvc.perform(get("/cam1/listdirs").accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
+        this.mockMvc.perform(get("/cam/api/v1/listdirs").accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json;charset=UTF-8"))
                 .andExpect(content().json("{\"dirs\":[\"20160115\",\"20160116\"]}"));
@@ -41,7 +41,7 @@ public class CamImagesControllerTest {
     @Test
     public void listdirWithFiles() throws Exception {
         String dir = "20160115";
-        this.mockMvc.perform(get("/cam1/list/" + dir).accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
+        this.mockMvc.perform(get("/cam/api/v1/list/" + dir).accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json;charset=UTF-8"))
                 .andExpect(content().json("{\"20160115\":[\"131540-01.jpg\",\"131541-00.jpg\",\"131541-01.jpg\"]}"));
@@ -52,7 +52,7 @@ public class CamImagesControllerTest {
     @Test
     public void listdirWithoutFiles() throws Exception {
         String dir = "20160116";
-        this.mockMvc.perform(get("/cam1/list/" + dir).accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
+        this.mockMvc.perform(get("/cam/api/v1/list/" + dir).accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json;charset=UTF-8"))
                 .andExpect(content().json("{\"20160116\":[]}"));
